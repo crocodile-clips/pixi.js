@@ -48,11 +48,13 @@ function rebundle(devBundle) {
 function createBundler(args) {
     args = args || {};
     args.debug = true;
-    args.standalone = 'PIXI';
+    //args.standalone = 'PIXI';
 
     var bundle = browserify(paths.jsEntry, args),
         argv = require('minimist')(process.argv.slice(2)),
         exclude = (argv.exclude || []).concat(argv.e || []);
+
+    bundle.require(paths.jsEntry, { expose: 'pixi.js' });
 
     for (var i = 0; i < exclude.length; ++i) {
         bundle.ignore(require.resolve('../../src/' + exclude[i]));
